@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Detective Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .detective-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .detective-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            display: block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .mystery-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mystery-box::before {
+            content: '?';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            right: 20px;
+            top: -10px;
+            font-weight: bold;
+        }
+
+        .year-badge {
+            background: #ff4757;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .challenge-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .step-number {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .call-to-action {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #5f27cd, #341f97);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .warning-text {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ff4757;
+            font-weight: bold;
+        }
+
+        .questions-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .questions-list ol {
+            padding-left: 20px;
+        }
+
+        .questions-list li {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .challenge-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="detective-card">
+        <div class="header">
+            <div class="detective-icon">🔍</div>
+            <h1 class="main-title">History Detective Challenge</h1>
+            <p class="subtitle">Can You Spot the Pattern?</p>
+        </div>
+        
+        <div class="content">
+            <div class="mystery-box">
+                <div class="year-badge">March 1933</div>
+                <h2>The Mystery</h2>
+                <p>A charismatic leader wants to pass a simple 4-page law called the "Enabling Act." Sounds harmless, right? This single piece of legislation changed everything...</p>
+            </div>
+
+            <div class="warning-text">
+                ⚠️ The most dangerous legislation often comes wrapped in the most reassuring language.
+            </div>
+
+            <div class="challenge-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Research</h3>
+                    <p>Ask your AI about Hitler's Enabling Act of 1933</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Analyze</h3>
+                    <p>Study the patterns and methods used</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Compare</h3>
+                    <p>Apply the same lens to modern legislation</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Discover</h3>
+                    <p>Spot the historical patterns repeating today</p>
+                </div>
+            </div>
+
+            <div class="questions-list">
+                <h3>🤔 Detective Questions to Ask Your AI:</h3>
+                <ol>
+                    <li>What exactly did Hitler's Enabling Act of 1933 allow?</li>
+                    <li>How was it sold to the German people?</li>
+                    <li>What "emergency" justified its necessity?</li>
+                    <li>What happened to checks and balances?</li>
+                    <li>How did opponents respond?</li>
+                </ol>
+            </div>
+
+            <div class="call-to-action">
+                <h2>🎯 Your Mission</h2>
+                <p>Take ANY modern legislation and run it through this historical lens. History doesn't repeat exactly, but it sure does rhyme...</p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                    <button class="cta-button" onclick="window.open('https://claude.ai/chat', '_blank')">
+                        🤖 Ask Claude AI
+                    </button>
+                    <button class="cta-button" onclick="window.open('https://chat.openai.com', '_blank')">
+                        💬 Ask ChatGPT
+                    </button>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Click either button to start your historical detective work!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
